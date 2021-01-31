@@ -29,10 +29,21 @@ public class HandPresence : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
-
-        // PrimaryButtonValue = true if pressed
-        if (primaryButtonValue)
+        // PrimaryButtonValue = true if pressed and TryGetFeatureValue returns false if the input does not exist
+        if (targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue) && primaryButtonValue)
+        {
             Debug.Log("Primary Button was pressed!");
+        }
+
+        // Trigger will return a float value based on its axis
+        if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue) && triggerValue > 0.1f)
+        {
+            Debug.Log("Trigger was pressed: "+triggerValue);
+        }
+
+        if (targetDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 primary2DAxisValue) && primary2DAxisValue != Vector2.zero)
+        {
+            Debug.Log("Touchpad was used: " + primary2DAxisValue);
+        }
     }
 }
