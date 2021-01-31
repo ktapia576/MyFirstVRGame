@@ -49,4 +49,5 @@ MonoBehaviour:
   - {fileID: 7634514334346526944, guid: 0540e32b498ef284f8e1dcf80dfccd58, type: 3}
   - {fileID: 919132149155446097, guid: cb57b54200400c7498a6411729c87ac2, type: 3}
   - {fileID: 919132149155446097, guid: 54d4e25a590a7db45ab2d335ee9eed15, type: 3}
-  handModelPrefab: {fileID: 0}
+  handModelPrefab: {fileID: 5686134208185362930, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+    type: 3}
