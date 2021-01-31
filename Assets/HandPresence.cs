@@ -7,7 +7,7 @@ public class HandPresence : MonoBehaviour
 {
     public bool showController = false; // Toggle whether or not to show controller or hands
     public InputDeviceCharacteristics controllerCharacteristics;    // Characteristics are chosen via dropdown in Unity Inspector
-    public List<GameObject> controllerPrefabs;
+    public List<GameObject> controllerPrefabs;  // ControllerPrefabs are set in Unity Inspector as an Array
     public GameObject handModelPrefab;
 
     private InputDevice targetDevice;
@@ -29,7 +29,7 @@ public class HandPresence : MonoBehaviour
         if (devices.Count > 0) 
         {
             targetDevice = devices[0];
-            GameObject prefab = controllerPrefabs.Find(controller => controller.name == targetDevice.name);
+            GameObject prefab = controllerPrefabs.Find(controller => controller.name == targetDevice.name); // Find the Prefab that matches the device name in the prefab Array and return false if not found
             if (prefab)
             {
                 spawnedController = Instantiate(prefab, transform); // Create the Game object thats matches device connected and use the transform properties 
@@ -66,5 +66,16 @@ public class HandPresence : MonoBehaviour
         //}
         // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
+        if (showController)
+        {
+            spawnedHandModel.SetActive(false);
+            spawnedController.SetActive(true);
+        }
+        else
+        {
+            spawnedHandModel.SetActive(true);
+            spawnedController.SetActive(false);
+
+        }
     }
 }
