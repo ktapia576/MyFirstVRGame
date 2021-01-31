@@ -5,7 +5,9 @@ using UnityEngine.XR;
 
 public class HandPresence : MonoBehaviour
 {
+    public List<GameObject> controllerPrefabs;
     private InputDevice targetDevice;
+    private GameObject spawnedController;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,16 @@ public class HandPresence : MonoBehaviour
         if (devices.Count > 0) 
         {
             targetDevice = devices[0];
+            GameObject prefab = controllerPrefabs.Find(controller => controller.name == targetDevice.name);
+            if (prefab)
+            {
+                spawnedController = Instantiate(prefab, transform); // Create the Game object thats matches device connected and use the transform properties 
+            }
+            else
+            {
+                Debug.LogError("Did not find the corresponding controller model");
+                spawnedController = Instantiate(controllerPrefabs[0], transform);
+            }
         }
     }
 
