@@ -5,16 +5,20 @@ using UnityEngine.XR;
 
 public class HandPresence : MonoBehaviour
 {
+    public bool showController = false; // Toggle whether or not to show controller or hands
+    public InputDeviceCharacteristics controllerCharacteristics;    // Characteristics are chosen via dropdown in Unity Inspector
     public List<GameObject> controllerPrefabs;
+    public GameObject handModelPrefab;
+
     private InputDevice targetDevice;
     private GameObject spawnedController;
+    private GameObject spawnedHandModel;
 
     // Start is called before the first frame update
     void Start()
     {
         List<InputDevice> devices = new List<InputDevice>();
-        InputDeviceCharacteristics rightControllerCharacteristics = InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
+        InputDevices.GetDevicesWithCharacteristics(controllerCharacteristics, devices);
 
         foreach (var device in devices)
         {
@@ -35,6 +39,8 @@ public class HandPresence : MonoBehaviour
                 Debug.LogError("Did not find the corresponding controller model");
                 spawnedController = Instantiate(controllerPrefabs[0], transform);
             }
+
+            spawnedHandModel = Instantiate(handModelPrefab, transform);
         }
     }
 
