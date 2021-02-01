@@ -18,16 +18,21 @@ public class HandPresence : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        TryInitialize();    // try to initialize at start, Update() function tries again if not initialized
+    }
+
+    void TryInitialize()
+    {
         List<InputDevice> devices = new List<InputDevice>();
         InputDevices.GetDevicesWithCharacteristics(controllerCharacteristics, devices);
 
         foreach (var device in devices)
         {
-            Debug.Log("name: " + device.name + " characteristic: "+ device.characteristics);
+            Debug.Log("name: " + device.name + " characteristic: " + device.characteristics);
         }
 
         // Make sure there is at least one device connected
-        if (devices.Count > 0) 
+        if (devices.Count > 0)
         {
             targetDevice = devices[0];
             GameObject prefab = controllerPrefabs.Find(controller => controller.name == targetDevice.name); // Find the Prefab that matches the device name in the prefab Array and return false if not found
@@ -90,18 +95,27 @@ public class HandPresence : MonoBehaviour
         //}
         // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-        if (showController)
+
+        // Check if controller device is initialized at start of game, if not try to intialize again
+        if (!targetDevice.isValid)
         {
-            spawnedHandModel.SetActive(false);
-            spawnedController.SetActive(true);
+            TryInitialize();
         }
         else
         {
-            spawnedHandModel.SetActive(true);
-            spawnedController.SetActive(false);
+            if (showController)
+            {
+                spawnedHandModel.SetActive(false);
+                spawnedController.SetActive(true);
+            }
+            else
+            {
+                spawnedHandModel.SetActive(true);
+                spawnedController.SetActive(false);
 
-            // If showing hand model, update hand animation
-            UpdateHandAnimation();
+                // If showing hand model, update hand animation
+                UpdateHandAnimation();
+            }
         }
     }
 }
